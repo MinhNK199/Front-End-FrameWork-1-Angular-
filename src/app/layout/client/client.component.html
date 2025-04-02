@@ -1,0 +1,29 @@
+  <nav class="bg-orange-600 text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <!-- Logo -->
+      <a routerLink="/" class="flex items-center space-x-2 text-xl font-bold">
+        <img src="/assets/Minh.png" style="height: 80px; width: auto;" alt="Logo ở đây" class="h-10">
+        <span>Minh Nguyễn Kim</span>
+      </a>
+
+      <!-- Menu -->
+      <ul class="flex space-x-6">
+        <li><a routerLink="/home" class="hover:text-yellow-400 hover:text-lg cursor-pointer">Trang chủ</a></li>
+        <li><a routerLink="/products" class="hover:text-yellow-400 hover:text-lg cursor-pointer">Sản phẩm</a></li>
+        <li><a routerLink="/about" class="hover:text-yellow-400 hover:text-lg cursor-pointer">About</a></li>
+        <li><a routerLink="/login" class="hover:text-yellow-400 hover:text-lg cursor-pointer ">Login</a></li>
+        <li><a routerLink="/register" class="hover:text-yellow-400 hover:text-lg cursor-pointer">Register</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- content -->
+  <div class="px-6 px-4">
+    <router-outlet></router-outlet>
+  </div>
+
+  <footer class="bg-gray-800 text-white text-center p-4 mt-6">
+    <p>&copy; 2025 Minh Nguyễn Kim PH51915. All rights reserved.</p>
+    <p><a href="/privacy" class="underline">Privacy Policy</a> | <a href="/terms" class="underline">Terms of Service</a>
+    </p>
+  </footer>

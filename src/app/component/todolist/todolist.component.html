@@ -1,0 +1,16 @@
+<hr><br><br>
+<input type="text" class="border px-3 py-1 rounded" [(ngModel)]="job" placeholder="Nhập công việc">
+
+<button (click)="handleAddJob()" class="px-3 border rounded cursor-pointer hover:bg-blue-400">Add</button>
+
+<h1>Danh sách công việc</h1>
+
+<ul>
+  @for (item of jobs; track $index) {
+    <li>
+      {{$index + 1 }}.{{item}}
+      <button (click)="handleDeleteJob($index)" class="px-3 border rounded cursor-pointer hover:bg-red-400">Delete</button>
+
+    </li>
+  }
+</ul>

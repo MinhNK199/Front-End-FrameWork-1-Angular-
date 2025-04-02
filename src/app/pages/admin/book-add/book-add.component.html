@@ -1,0 +1,171 @@
+<h2 class="text-2xl font-bold mb-4">Thêm sách mới</h2>
+<form #form="ngForm" (ngSubmit)="handleSubmit(form)" class="space-y-4">
+  <div>
+    <label for="title" class="block text-sm font-medium text-gray-700"
+      >Tên sách</label
+    >
+    <input
+      type="text"
+      id="title"
+      [(ngModel)]="book.title"
+      name="title"
+      #titleField="ngModel"
+      required
+      minlength="3"
+      class="w-full border px-2 py-1 rounded"
+      [ngClass]="{
+        'border-red-500':
+          titleField.invalid && (titleField.dirty || titleField.touched)
+      }"
+    />
+    <div
+      *ngIf="titleField.invalid && (titleField.dirty || titleField.touched)"
+      class="text-red-500 text-sm mt-1"
+    >
+      <div *ngIf="titleField.errors?.['required']">
+        Tên sách không được để trống
+      </div>
+      <div *ngIf="titleField.errors?.['minlength']">
+        Tên sách phải có ít nhất 3 ký tự
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="price" class="block text-sm font-medium text-gray-700"
+      >Giá</label
+    >
+    <input
+      type="number"
+      id="price"
+      [(ngModel)]="book.price"
+      name="price"
+      #priceField="ngModel"
+      required
+      min="0"
+      class="w-full border px-2 py-1 rounded"
+      [ngClass]="{
+        'border-red-500':
+          priceField.invalid && (priceField.dirty || priceField.touched)
+      }"
+    />
+    <div
+      *ngIf="priceField.invalid && (priceField.dirty || priceField.touched)"
+      class="text-red-500 text-sm mt-1"
+    >
+      <div *ngIf="priceField.errors?.['required']">
+        Giá sách không được để trống
+      </div>
+      <div *ngIf="priceField.errors?.['min']">
+        Giá sách không được nhỏ hơn 0
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="genre" class="block text-sm font-medium text-gray-700"
+      >Thể loại</label
+    >
+    <input
+      type="text"
+      id="genre"
+      [(ngModel)]="book.genre"
+      name="genre"
+      #genreField="ngModel"
+      required
+      class="w-full border px-2 py-1 rounded"
+      [ngClass]="{
+        'border-red-500':
+          genreField.invalid && (genreField.dirty || genreField.touched)
+      }"
+    />
+    <div
+      *ngIf="genreField.invalid && (genreField.dirty || genreField.touched)"
+      class="text-red-500 text-sm mt-1"
+    >
+      <div *ngIf="genreField.errors?.['required']">
+        Thể loại không được để trống
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="imageURL" class="block text-sm font-medium text-gray-700"
+      >Hình ảnh (URL)</label
+    >
+    <input
+      type="text"
+      id="imageURL"
+      [(ngModel)]="book.imageURL"
+      name="imageURL"
+      #imageField="ngModel"
+      required
+      pattern="https?://.+"
+      class="w-full border px-2 py-1 rounded"
+      [ngClass]="{
+        'border-red-500':
+          imageField.invalid && (imageField.dirty || imageField.touched)
+      }"
+    />
+    <div
+      *ngIf="imageField.invalid && (imageField.dirty || imageField.touched)"
+      class="text-red-500 text-sm mt-1"
+    >
+      <div *ngIf="imageField.errors?.['required']">
+        URL hình ảnh không được để trống
+      </div>
+      <div *ngIf="imageField.errors?.['pattern']">
+        URL hình ảnh không hợp lệ (phải bắt đầu bằng http:// hoặc https://)
+      </div>
+    </div>
+    <div *ngIf="book.imageURL" class="mt-2">
+      <img
+        [src]="book.imageURL"
+        alt="Preview"
+        class="h-24 object-contain border p-1"
+      />
+    </div>
+  </div>
+
+  <div>
+    <label for="published" class="block text-sm font-medium text-gray-700"
+      >Trạng thái xuất bản</label
+    >
+    <select
+      id="published"
+      [(ngModel)]="book.published"
+      name="published"
+      #publishedField="ngModel"
+      required
+      class="w-full border px-2 py-1 rounded"
+      [ngClass]="{
+        'border-red-500':
+          publishedField.invalid &&
+          (publishedField.dirty || publishedField.touched)
+      }"
+    >
+      <option value="">-- Chọn trạng thái --</option>
+      <option value="Đã xuất bản">Đã xuất bản</option>
+      <option value="Chưa xuất bản">Chưa xuất bản</option>
+    </select>
+    <div
+      *ngIf="
+        publishedField.invalid &&
+        (publishedField.dirty || publishedField.touched)
+      "
+      class="text-red-500 text-sm mt-1"
+    >
+      <div *ngIf="publishedField.errors?.['required']">
+        Trạng thái xuất bản không được để trống
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    [disabled]="form.invalid"
+    class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+  >
+    Thêm sách
+  </button>
+</form>
