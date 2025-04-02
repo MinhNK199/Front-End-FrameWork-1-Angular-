@@ -1,5 +1,5 @@
 <h2 class="text-2xl font-bold mb-4">Chỉnh sửa sách</h2>
-<form #form="ngForm" (ngSubmit)="handleSubmit(form)" class="space-y-4">
+<form [formGroup]="bookForm" (ngSubmit)="handleSubmit()" class="space-y-4">
   <div>
     <label for="title" class="block text-sm font-medium text-gray-700"
       >Tên sách</label
@@ -7,25 +7,18 @@
     <input
       type="text"
       id="title"
-      [(ngModel)]="book.title"
-      name="title"
-      #titleField="ngModel"
-      required
-      minlength="3"
+      formControlName="title"
       class="w-full border px-2 py-1 rounded"
-      [ngClass]="{
-        'border-red-500':
-          titleField.invalid && (titleField.dirty || titleField.touched)
-      }"
+      [ngClass]="{ 'border-red-500': submitted && f['title'].errors }"
     />
     <div
-      *ngIf="titleField.invalid && (titleField.dirty || titleField.touched)"
+      *ngIf="submitted && f['title'].errors"
       class="text-red-500 text-sm mt-1"
     >
-      <div *ngIf="titleField.errors?.['required']">
+      <div *ngIf="f['title'].errors['required']">
         Tên sách không được để trống
       </div>
-      <div *ngIf="titleField.errors?.['minlength']">
+      <div *ngIf="f['title'].errors['minlength']">
         Tên sách phải có ít nhất 3 ký tự
       </div>
     </div>
@@ -38,53 +31,67 @@
     <input
       type="number"
       id="price"
-      [(ngModel)]="book.price"
-      name="price"
-      #priceField="ngModel"
-      required
-      min="0"
+      formControlName="price"
       class="w-full border px-2 py-1 rounded"
-      [ngClass]="{
-        'border-red-500':
-          priceField.invalid && (priceField.dirty || priceField.touched)
-      }"
+      [ngClass]="{ 'border-red-500': submitted && f['price'].errors }"
     />
     <div
-      *ngIf="priceField.invalid && (priceField.dirty || priceField.touched)"
+      *ngIf="submitted && f['price'].errors"
       class="text-red-500 text-sm mt-1"
     >
-      <div *ngIf="priceField.errors?.['required']">
+      <div *ngIf="f['price'].errors['required']">
         Giá sách không được để trống
       </div>
-      <div *ngIf="priceField.errors?.['min']">
-        Giá sách không được nhỏ hơn 0
-      </div>
+      <div *ngIf="f['price'].errors['min']">Giá sách không được nhỏ hơn 0</div>
     </div>
   </div>
 
   <div>
-    <label for="genre" class="block text-sm font-medium text-gray-700"
+    <label for="genreSelect" class="block text-sm font-medium text-gray-700"
       >Thể loại</label
     >
-    <input
-      type="text"
-      id="genre"
-      [(ngModel)]="book.genre"
-      name="genre"
-      #genreField="ngModel"
-      required
-      class="w-full border px-2 py-1 rounded"
-      [ngClass]="{
-        'border-red-500':
-          genreField.invalid && (genreField.dirty || genreField.touched)
-      }"
-    />
+    <select
+      id="genreSelect"
+      formControlName="selectedGenre"
+      class="w-full border px-2 py-1 rounded mb-2"
+      [ngClass]="{ 'border-red-500': submitted && f['selectedGenre'].errors }"
+      (change)="onGenreChange()"
+    >
+      <option value="">-- Chọn thể loại --</option>
+      <option *ngFor="let genre of availableGenres" [value]="genre">
+        {{ genre }}
+      </option>
+      <option value="other">Khác</option>
+    </select>
+
+    <!-- Custom genre input that appears when "Other" is selected -->
+    <div *ngIf="bookForm.get('selectedGenre')?.value === 'other'" class="mt-2">
+      <label for="customGenre" class="block text-sm font-medium text-gray-700"
+        >Thể loại mới</label
+      >
+      <input
+        type="text"
+        id="customGenre"
+        formControlName="customGenre"
+        class="w-full border px-2 py-1 rounded"
+        [ngClass]="{ 'border-red-500': submitted && f['customGenre'].errors }"
+      />
+      <div
+        *ngIf="submitted && f['customGenre'].errors"
+        class="text-red-500 text-sm mt-1"
+      >
+        <div *ngIf="f['customGenre'].errors['required']">
+          Thể loại mới không được để trống
+        </div>
+      </div>
+    </div>
+
     <div
-      *ngIf="genreField.invalid && (genreField.dirty || genreField.touched)"
+      *ngIf="submitted && f['selectedGenre'].errors"
       class="text-red-500 text-sm mt-1"
     >
-      <div *ngIf="genreField.errors?.['required']">
-        Thể loại không được để trống
+      <div *ngIf="f['selectedGenre'].errors['required']">
+        Vui lòng chọn thể loại
       </div>
     </div>
   </div>
@@ -96,31 +103,24 @@
     <input
       type="text"
       id="imageURL"
-      [(ngModel)]="book.imageURL"
-      name="imageURL"
-      #imageField="ngModel"
-      required
-      pattern="https?://.+"
+      formControlName="imageURL"
       class="w-full border px-2 py-1 rounded"
-      [ngClass]="{
-        'border-red-500':
-          imageField.invalid && (imageField.dirty || imageField.touched)
-      }"
+      [ngClass]="{ 'border-red-500': submitted && f['imageURL'].errors }"
     />
     <div
-      *ngIf="imageField.invalid && (imageField.dirty || imageField.touched)"
+      *ngIf="submitted && f['imageURL'].errors"
       class="text-red-500 text-sm mt-1"
     >
-      <div *ngIf="imageField.errors?.['required']">
+      <div *ngIf="f['imageURL'].errors['required']">
         URL hình ảnh không được để trống
       </div>
-      <div *ngIf="imageField.errors?.['pattern']">
+      <div *ngIf="f['imageURL'].errors['pattern']">
         URL hình ảnh không hợp lệ (phải bắt đầu bằng http:// hoặc https://)
       </div>
     </div>
-    <div *ngIf="book.imageURL" class="mt-2">
+    <div *ngIf="bookForm.get('imageURL')?.value" class="mt-2">
       <img
-        [src]="book.imageURL"
+        [src]="bookForm.get('imageURL')?.value"
         alt="Preview"
         class="h-24 object-contain border p-1"
       />
@@ -133,29 +133,19 @@
     >
     <select
       id="published"
-      [(ngModel)]="book.published"
-      name="published"
-      #publishedField="ngModel"
-      required
+      formControlName="published"
       class="w-full border px-2 py-1 rounded"
-      [ngClass]="{
-        'border-red-500':
-          publishedField.invalid &&
-          (publishedField.dirty || publishedField.touched)
-      }"
+      [ngClass]="{ 'border-red-500': submitted && f['published'].errors }"
     >
       <option value="">-- Chọn trạng thái --</option>
-      <option [value]="true">Đã xuất bản</option>
-      <option [value]="false">Chưa xuất bản</option>
+      <option [ngValue]="'true'">Đã xuất bản</option>
+      <option [ngValue]="'false'">Chưa xuất bản</option>
     </select>
     <div
-      *ngIf="
-        publishedField.invalid &&
-        (publishedField.dirty || publishedField.touched)
-      "
+      *ngIf="submitted && f['published'].errors"
       class="text-red-500 text-sm mt-1"
     >
-      <div *ngIf="publishedField.errors?.['required']">
+      <div *ngIf="f['published'].errors['required']">
         Trạng thái xuất bản không được để trống
       </div>
     </div>
@@ -163,9 +153,9 @@
 
   <button
     type="submit"
-    [disabled]="form.invalid"
     class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+    [disabled]="isSubmitting"
   >
-    Cập nhật sách
+    {{ isSubmitting ? "Đang xử lý..." : "Cập nhật" }}
   </button>
 </form>

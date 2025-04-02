@@ -183,12 +183,12 @@
   ],
   "books": [
     {
+      "id": "60f2",
       "title": "Clean Code",
       "price": 25.99,
       "published": "true",
       "imageURL": "https://cdn1.fahasa.com/media/catalog/product/b/i/bia-lap-tr_nh-c_-b1.jpg",
-      "genre": "Programming",
-      "id": "60f2"
+      "genre": "Programming"
     },
     {
       "title": "Atomic Habits",
@@ -221,6 +221,30 @@
       "published": "true",
       "imageURL": "https://cdn1.fahasa.com/media/catalog/product/t/h/th_-m_nh-c_a-tu_i-trung-ni_n---b_a-1.jpg",
       "genre": "Self-help"
+    },
+    {
+      "id": "c615",
+      "title": "Sách 01",
+      "price": 100,
+      "published": "true",
+      "imageURL": "https://flbea.com/wp-content/uploads/polyschool2016-logo_400x290.png",
+      "genre": "Programming"
+    }
+  ],
+  "users": [
+    {
+      "email": "minhnkph51915@gmail.com",
+      "password": "$2a$10$6PdGKCkMj5e1VKngbwYq2OpVLSkHG.OtcYInaIXQoLtoqXZc82wbm",
+      "username": "minhnkph51915",
+      "fullName": "Nguyễn Kim Minh",
+      "id": 1
+    },
+    {
+      "email": "minhnkph51915@gmaIl.com",
+      "password": "$2a$10$BVFp/8qeskSENfswaAs3Ge3XIu5QPmSXhivNPZzuhnAtPuYDl5DsS",
+      "username": "minhnkph51915",
+      "fullName": "Nguyễn Kim Minh",
+      "id": 2
     }
   ]
 }

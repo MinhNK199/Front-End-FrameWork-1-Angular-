@@ -12,6 +12,9 @@ import { ProductEditComponent } from './pages/admin/product-edit/product-edit.co
 import { BookListComponent } from './pages/admin/book-list/book-list.component';
 import { BookAddComponent } from './pages/admin/book-add/book-add.component';
 import { BookEditComponent } from './pages/admin/book-edit/book-edit.component';
+import { RegisterComponent } from './pages/client/register/register.component';
+import { LoginComponent } from './pages/client/login/login.component';
+import { authGuard } from './guard/auth.guard';
 
 
 export const routes: Routes = [
@@ -29,11 +32,18 @@ export const routes: Routes = [
   },
   {
     path:'product/:id',component: ProductDetailComponent
+  },
+  {
+    path:'register',component: RegisterComponent
+  },
+  {
+    path:'login',component: LoginComponent
   }
     ]
   },
   {
     path: 'admin', component:AdminComponent,
+    canActivate: [authGuard],
     children:[
       {
         path:'product',component: ProductListComponent  
